@@ -2,7 +2,7 @@ const Alquiler = require("../models/alquiler");
 const alquilerCtrl = {};
 
 alquilerCtrl.getAlquileres = async (req, res) => {
-  var alquileres = await Alquiler.find();
+  var alquileres = await Alquiler.find().populate('propietario').populate('cuotas').populate('local');
   res.json(alquileres);
 };
 
@@ -23,7 +23,7 @@ alquilerCtrl.createAlquiler = async (req, res) => {
 };
 
 alquilerCtrl.getAlquiler = async (req, res) => {
-  const alquiler = await alquiler.findById(req.params.id);
+  const alquiler = await alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');;
   res.json(alquiler);
 };
 
