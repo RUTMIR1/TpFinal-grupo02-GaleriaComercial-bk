@@ -13,6 +13,7 @@ app.use('/api/novedad', require('./routes/novedad.route'));
 app.use('/api/pago', require('./routes/pago.route'));
 app.use('/api/alquiler', require('./routes/alquiler.route'));
 app.use('/api/local', require('./routes/local.route'));
+app.use('/api/promocion', require('./routes/promocion.route'));
 
 //setting
 app.set('port', process.env.PORT || 3000);
