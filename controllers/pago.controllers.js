@@ -1,7 +1,7 @@
 const Pago = require ('../models/pago');
 const pagoCtrl = {};
 
-pagosCtrl.getPago = async (req, res) => {
+pagoCtrl.getPagos = async (req, res) => {
     var pagos = await Pago.find();
     res.json(pagos);
   };
