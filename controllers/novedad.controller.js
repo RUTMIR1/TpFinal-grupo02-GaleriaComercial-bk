@@ -2,7 +2,7 @@ const Novedad = require('../models/novedad');
 const NovedadCtrl = {};
 
 NovedadCtrl.getNovedades = async (req, res) => {
-    var novedades = await Novedad.find();
+    var novedades = await Novedad.find().populate('usuario');
     res.json(novedades);
 };
 

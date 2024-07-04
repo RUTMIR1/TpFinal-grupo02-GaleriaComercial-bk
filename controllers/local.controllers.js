@@ -2,7 +2,7 @@ const Local = require ('../models/local');
 const localCtrl = {};
 
 localCtrl.getLocales = async (req, res) => {
-    var locales = await Local.find().populate('novedades');
+    var locales = await Local.find();
     res.json(locales);
   };
 
@@ -24,7 +24,7 @@ localCtrl.createLocal = async (req, res) => {
   };
   
 localCtrl.getLocal = async (req, res) => {
-    const local = await Local.findById(req.params.id).populate('novedades');
+    const local = await Local.findById(req.params.id);
     res.json(local);
   };
 
