@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const novedad = require('./novedad');
+const promocion = require('./promocion');
 const {Schema} = mongoose;
 const LocalSchema = new Schema({
     superficie: {type: Number, required: true},
@@ -8,6 +8,7 @@ const LocalSchema = new Schema({
     alquilado: {type: Boolean, required: true},
     promocion:{type: Boolean, required: true},
     costoMes: { type: Number, required: true },
+    promociones: [{type: Schema.Types.ObjectId, ref: promocion, required: false}]
 });
 
 module.exports = mongoose.models.Local || mongoose.model('Local', LocalSchema);
