@@ -23,8 +23,16 @@ alquilerCtrl.createAlquiler = async (req, res) => {
 };
 
 alquilerCtrl.getAlquiler = async (req, res) => {
-  const alquiler = await alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');;
-  res.json(alquiler);
+  try{
+    const alquiler = await alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');;
+    res.status(200).json(alquiler);
+  }catch(err){
+    res.status(404).json({
+      status: "0",
+      msg: "Alquiler no encontrado.",
+      error: err
+    });
+  }
 };
 
 alquilerCtrl.editAlquiler = async (req, res) => {
@@ -57,5 +65,19 @@ alquilerCtrl.deleteAlquiler = async (req, res) => {
     });
   }
 };
+
+alquilerCtrl.getAlquileresByUserId = async (req, res)=>{
+  try{
+    const alquileres = await Alquiler.find({ propietario: req.params.user }).populate('propietario').populate('cuotas').populate('local');
+    res.status(200).json(alquileres);
+  }catch(err){
+    res.status(400).json({
+      'status': '0',
+      'msg': 'Error al intentar realizar la operacion',
+      'error': err
+    });
+  }
+}
+
 
 module.exports = alquilerCtrl;
