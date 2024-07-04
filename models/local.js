@@ -8,7 +8,6 @@ const LocalSchema = new Schema({
     alquilado: {type: Boolean, required: true},
     promocion:{type: Boolean, required: true},
     costoMes: { type: Number, required: true },
-    novedades: [{ type: Schema.Types.ObjectId, ref: novedad , required: false}]
-})
+});
 
 module.exports = mongoose.models.Local || mongoose.model('Local', LocalSchema);
