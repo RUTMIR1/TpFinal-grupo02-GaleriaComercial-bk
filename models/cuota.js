@@ -7,7 +7,7 @@ const CuotaSchema = new Schema({
     fechaCuota: {type: Date, required: true},
     fechaVencimiento: {type: Date, required: true},
     estado: {type: String, required: true},
-    pago: {type: Schema.Types.ObjectId, ref: pago, required: false}
+    pago: [{type: Schema.Types.ObjectId, ref: pago, required: false}]
 });
 
 module.exports = mongoose.models.Cuota || mongoose.model('Cuota', CuotaSchema);
