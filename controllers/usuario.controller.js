@@ -99,5 +99,18 @@ UsuarioCtrl.loginUsuario = async (req, res) => {
     }
 }
 
+UsuarioCtrl.getUsuariosByPerfil = async (req, res)=>{
+    try {
+        const usuarios = await Usuario.find({ perfil: req.params.pf});
+        res.status(200).json(usuarios);
+    } catch (error) {
+        res.status(400).json({
+            'status': 0,
+            'msg': "error al intentar realizar la operacion",
+            'error': err
+        });
+    }
+}
+
 
 module.exports = UsuarioCtrl;

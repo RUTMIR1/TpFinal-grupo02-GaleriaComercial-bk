@@ -24,10 +24,10 @@ alquilerCtrl.createAlquiler = async (req, res) => {
 
 alquilerCtrl.getAlquiler = async (req, res) => {
   try{
-    const alquiler = await alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');;
+    const alquiler = await Alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');
     res.status(200).json(alquiler);
   }catch(err){
-    res.status(404).json({
+    res.status(400).json({
       status: "0",
       msg: "Alquiler no encontrado.",
       error: err

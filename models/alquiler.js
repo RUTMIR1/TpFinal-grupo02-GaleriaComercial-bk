@@ -10,7 +10,7 @@ const AlquilerSchema = new Schema({
     fechaAlquiler:{type: Date, required: true},
     fechaVencimiento:{type: Date, required: true},
     plazoMes:{type: Number, required: true},
-    cuotas: [{type: Schema.Types.ObjectId, ref: cuota, required: true}]
+    cuotas: [{type: cuota.schema, required: true}]
     //pago: { type: Schema.Types.ObjectId, ref: pago, required: true },
 })
 
