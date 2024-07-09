@@ -101,8 +101,11 @@ UsuarioCtrl.loginUsuario = async (req, res) => {
 
 UsuarioCtrl.getUsuariosByPerfil = async (req, res)=>{
     try {
-        const usuarios = await Usuario.find({ perfil: req.params.pf});
-        res.status(200).json(usuarios);
+       /* const usuarios = await Usuario.find({ perfil: req.params.pf});// esto seria por parametro de ruta
+        res.status(200).json(usuarios);*/
+        const {perfil} = req.query
+        var usuario= await Usuario.find({perfil:perfil});
+        res.json(usuario)
     } catch (error) {
         res.status(400).json({
             'status': 0,
