@@ -4,7 +4,7 @@ const route = express.Router();
 
 route.post('/', UsuarioCtrl.createUsuario);
 route.get('/',UsuarioCtrl.getUsuarios);
-route.get('/tipo', UsuarioCtrl.getUsuariosByPerfil);
+route.get('/perfil/:tipo', UsuarioCtrl.getUsuariosByPerfil);
 route.get('/:id', UsuarioCtrl.getUsuarioById);
 route.put('/:id', UsuarioCtrl.updateUsuario);
 route.delete('/:id', UsuarioCtrl.deleteUsuario);

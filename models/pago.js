@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 const usuario = require('./usuario');
 const PagoSchema = new Schema({
     monto:{type: Number, required: true},
-    tipo:{type: String, required: true},
+    estado:{type: String, required: true},
     fecha:{type: Date, required: true},
     usuario:{type: Schema.Types.ObjectId, ref: usuario, required: true}
 })
