@@ -18,13 +18,14 @@ alquilerCtrl.createAlquiler = async (req, res) => {
     res.status(400).json({
       status: "0",
       msg: "Error procesando operacion.",
+      error: error
     });
   }
 };
 
 alquilerCtrl.getAlquiler = async (req, res) => {
   try{
-    const alquiler = await Alquiler.findById(req.params.id).populate('propietario').populate('cuotas').populate('local');
+    const alquiler = await Alquiler.findOne({_id: req.params.id}).populate('propietario').populate('cuotas').populate('local');
     res.status(200).json(alquiler);
   }catch(err){
     res.status(400).json({
@@ -68,7 +69,12 @@ alquilerCtrl.deleteAlquiler = async (req, res) => {
 
 alquilerCtrl.getAlquileresByUserId = async (req, res)=>{
   try{
-    const alquileres = await Alquiler.find({ propietario: req.params.user }).populate('propietario').populate('cuotas').populate('local');
+    const alquileres = await Alquiler.find({ propietario: req.params.user }).populate('propietario')
+    .populate({
+      path: 'cuotas',
+      populate: { path: 'pago' } // Popula el campo 'pago' dentro de cada objeto de 'cuotas'
+    })
+    .populate('local');
     res.status(200).json(alquileres);
   }catch(err){
     res.status(400).json({

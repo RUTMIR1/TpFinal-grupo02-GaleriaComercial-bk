@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const CuotaSchema = new Schema({
+    numeroCuota: {type: Number, required:true},
     monto: {type: Number, required: true},
     fechaCuota: {type: Date, required: true},
     fechaVencimiento: {type: Date, required: true},
