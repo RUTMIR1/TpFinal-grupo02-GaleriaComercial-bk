@@ -2,7 +2,15 @@ const Alquiler = require("../models/alquiler");
 const alquilerCtrl = {};
 
 alquilerCtrl.getAlquileres = async (req, res) => {
-  var alquileres = await Alquiler.find().populate('propietario').populate('cuotas').populate('local');
+  var alquileres = await Alquiler.find().populate('propietario')
+  .populate('local')
+  .populate({
+    path: 'cuotas',
+    populate: {
+      path: 'pago',
+      model: 'Pago'
+    }
+  });
   res.json(alquileres);
 };
 
@@ -25,7 +33,16 @@ alquilerCtrl.createAlquiler = async (req, res) => {
 
 alquilerCtrl.getAlquiler = async (req, res) => {
   try{
-    const alquiler = await Alquiler.findOne({_id: req.params.id}).populate('propietario').populate('cuotas').populate('local');
+    const alquiler = await Alquiler.findOne({_id: req.params.id})
+    .populate('propietario')
+    .populate('local')
+    .populate({
+      path: 'cuotas',
+      populate: {
+        path: 'pago',
+        model: 'Pago'
+      }
+    });
     res.status(200).json(alquiler);
   }catch(err){
     res.status(400).json({
