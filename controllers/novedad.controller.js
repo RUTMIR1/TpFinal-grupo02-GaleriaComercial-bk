@@ -23,6 +23,11 @@ NovedadCtrl.createNovedad = async (req, res) => {
     }
 }
 
+NovedadCtrl.getNovedad = async (req, res) => { 
+    const novedad = await Novedad.findById(req.params.id).populate("usuario"); 
+    res.json(novedad); 
+} 
+
 NovedadCtrl.deleteNovedad = async (req, res) => {
     try{
         await Novedad.deleteOne({_id: req.params.id});
