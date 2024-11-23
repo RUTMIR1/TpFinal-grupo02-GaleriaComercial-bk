@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "db_test2",
+    "host": "dockerfile-loadbalancer-cluster-1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "root",
+    "database": "db_test2",
+    "host": "dockerfile-loadbalancer-cluster-1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "root",
+    "database": "db_test2",
+    "host": "dockerfile-loadbalancer-cluster-1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

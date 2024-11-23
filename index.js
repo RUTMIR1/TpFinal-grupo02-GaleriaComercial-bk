@@ -13,7 +13,7 @@ dotenv.config();
 app.use(express.json()); // Para parsear JSON
 // Configurar CORS
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: '*',
   optionsSuccessStatus: 200
 };
 

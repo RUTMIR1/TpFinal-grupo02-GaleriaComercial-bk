@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
 
-const UsuarioSchema = new Schema({
-  nombre: { type: String, required: true},
-  apellido:{type:String, required: true},
-  email: { type: String, required: true},
-  username: {type:String, required: true},
-  password: { type:String, required: true },
-  telefono: {type:Number, required: true},
-  perfil: {type: String, required: true}
+const Usuario = sequelize.define('Usuario', {
+  nombre: { type: DataTypes.STRING, allowNull: false },
+  apellido: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, unique: true, allowNull: false },
+  username: { type: DataTypes.STRING, unique: true, allowNull: false },
+  password: { type: DataTypes.STRING, allowNull: false },
+  telefono: { type: DataTypes.BIGINT, allowNull: false },
+  perfil: { type: DataTypes.STRING, allowNull: false },
+}, {
+  tableName: 'usuarios',
+  timestamps: false, // Evita las columnas createdAt y updatedAt si no son necesarias
 });
 
-module.exports = mongoose.models.Usuario || mongoose.model('Usuario', UsuarioSchema);
+module.exports = Usuario;

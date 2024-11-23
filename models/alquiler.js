@@ -1,17 +1,23 @@
-const mongoose = require('mongoose');
-const local = require('./local');
-const cuota = require('./cuota');
-const usuario = require('./usuario');
-const {Schema} = mongoose;
-const AlquilerSchema = new Schema({
-    propietario:{ type: Schema.Types.ObjectId, ref: usuario, required: true },
-    local:{ type: Schema.Types.ObjectId, ref: local, required: true },
-    costoAlquiler:{type: Number, required: true},
-    fechaAlquiler:{type: Date, required: true},
-    fechaVencimiento:{type: Date, required: true},
-    plazoMes:{type: Number, required: true},
-    cuotas: [{type: cuota.schema, required: true}]
-    //pago: { type: Schema.Types.ObjectId, ref: pago, required: true },
-})
+const Local = require('./local.js');
+const Cuota = require('./cuota.js');
+const sequelize = require('../database.js');  // Ajusta la ruta si es necesario
+const { DataTypes } = require('sequelize');
+const Usuario = require('./usuario.js');
+const Alquiler = sequelize.define('Alquiler', {
+  costoAlquiler: { type: DataTypes.FLOAT, allowNull: false },
+  fechaAlquiler: { type: DataTypes.DATE, allowNull: false },
+  fechaVencimiento: { type: DataTypes.DATE, allowNull: false },
+  plazoMes: { type: DataTypes.INTEGER, allowNull: false },
+}, { tableName: 'alquileres' });
 
-module.exports = mongoose.models.Alquiler|| mongoose.model('Alquiler', AlquilerSchema);
+// Relación con Usuario
+Alquiler.belongsTo(Usuario, { foreignKey: 'propietarioId', as: 'propietario' });
+
+// Relación con Local
+Alquiler.belongsTo(Local, { foreignKey: 'localId', as: 'local' });
+
+// Relación con Cuotas
+Alquiler.hasMany(Cuota, { foreignKey: 'alquilerId', as: 'cuotas' });
+Cuota.belongsTo(Alquiler, { foreignKey: 'alquilerId' });
+
+module.exports = Alquiler;

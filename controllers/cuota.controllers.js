@@ -2,58 +2,85 @@ const Cuota = require('../models/cuota');
 const CuotaCtrl = {};
 
 CuotaCtrl.getCuotas = async (req, res) => {
-    var cuotas = await Cuota.find().populate('pago');
-    res.json(cuotas);
+    try {
+        const cuotas = await Cuota.findAll(); // Obtiene todas las cuotas
+        res.json(cuotas);
+    } catch (err) {
+        res.status(400).json({
+            status: "0",
+            msg: "Ocurrió un error al obtener las cuotas",
+            error: err
+        });
+    }
 };
 
 CuotaCtrl.createCuota = async (req, res) => {
-    var cuota = new Cuota(req.body);
     try {
-        await cuota.save();
+        const cuota = await Cuota.create(req.body); // Usamos create() para insertar una nueva cuota
         res.status(200).json({
             status: "1",
-            msg: "Se creo la cuota correctamente",
+            msg: "Se creó la cuota correctamente",
+            cuota: cuota // Puedes devolver la cuota creada
         });
     } catch (err) {
         res.status(400).json({
             status: "0",
-            msg: "ocurrio un error al intentar realizar la operacion",
+            msg: "Ocurrió un error al intentar realizar la operación",
             error: err
         });
     }
-}
+};
 
 CuotaCtrl.updateCuota = async (req, res) => {
-    var cuota = new Cuota(req.body);
-    try{
-        await Cuota.updateOne({_id:req.params.id}, cuota);
-        res.status(200).json({
-            'status': 1,
-            'msg': 'cuota modificada correctamente'
+    try {
+        const cuota = await Cuota.update(req.body, {
+            where: { id: req.params.id }  // Usamos la condición `where` para indicar qué cuota actualizar
         });
-    }catch(err){
+        
+        if (cuota[0] === 0) {
+            return res.status(400).json({
+                status: "0",
+                msg: "No se encontró la cuota para actualizar",
+            });
+        }
+
+        res.status(200).json({
+            status: "1",
+            msg: "Cuota modificada correctamente"
+        });
+    } catch (err) {
         res.status(400).json({
-            'status': 0,
-            'msg': 'ocurrio un error al intentar realizar la operacion',
-            'error': err
-        })
+            status: "0",
+            msg: "Ocurrió un error al intentar realizar la operación",
+            error: err
+        });
     }
-}
+};
 
 CuotaCtrl.deleteCuota = async (req, res) => {
-    try{
-        await Cuota.deleteOne({_id:req.params.id});
-        res.status(200).json({
-            'status': 1,
-            'msg': 'cuota eliminada correctamente'
+    try {
+        const cuota = await Cuota.destroy({
+            where: { id: req.params.id } // Usamos destroy() para eliminar la cuota con el ID correspondiente
         });
-    }catch(err){
+
+        if (cuota === 0) {
+            return res.status(400).json({
+                status: "0",
+                msg: "No se encontró la cuota para eliminar",
+            });
+        }
+
+        res.status(200).json({
+            status: "1",
+            msg: "Cuota eliminada correctamente"
+        });
+    } catch (err) {
         res.status(400).json({
-            'status':0,
-            'msg': 'ocurrio un error al intentar realizar la operacion',
-            'error': err
+            status: "0",
+            msg: "Ocurrió un error al intentar realizar la operación",
+            error: err
         });
     }
-}
+};
 
 module.exports = CuotaCtrl;

@@ -1,11 +1,14 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
-const usuario = require('./usuario');
-const PagoSchema = new Schema({
-    monto:{type: Number, required: true},
-    estado:{type: String, required: true},
-    fecha:{type: Date, required: true},
-    enlacePago:{type: String, required: true},
-    usuario:{type: Schema.Types.ObjectId, ref: usuario, required: true}
-})
-module.exports = mongoose.models.Pago || mongoose.model('Pago', PagoSchema);
+const sequelize = require('../database.js');  // Ajusta la ruta si es necesario
+const { DataTypes } = require('sequelize');
+const Usuario = require('./usuario.js');
+const Pago = sequelize.define('Pago', {
+    monto: { type: DataTypes.FLOAT, allowNull: false },
+    estado: { type: DataTypes.STRING, allowNull: false },
+    fecha: { type: DataTypes.DATE, allowNull: false },
+    enlacePago: { type: DataTypes.STRING, allowNull: false },
+  }, { tableName: 'pagos' });
+  
+  // Relación con Usuario
+  Pago.belongsTo(Usuario, { foreignKey: 'usuarioId', as: 'usuario' });
+  
+  module.exports = Pago;

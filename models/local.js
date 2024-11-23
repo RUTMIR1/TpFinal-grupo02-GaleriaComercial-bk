@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
-const promocion = require('./promocion');
-const {Schema} = mongoose;
-const LocalSchema = new Schema({
-    nombre: {type: String, required: true},
-    superficie: {type: Number, required: true},
-    habilitado: {type: Boolean, required: true},
-    pathimages: {type: String, required: true},
-    alquilado: {type: Boolean, required: true},
-    costoMes: { type: Number, required: true },
-    promociones: [{type: Schema.Types.ObjectId, ref: promocion, required: false}]
-});
-
-module.exports = mongoose.models.Local || mongoose.model('Local', LocalSchema);
+const sequelize = require('../database.js');  // Ajusta la ruta si es necesario
+const { DataTypes } = require('sequelize');
+const Promocion = require('./promocion.js');
+const Local = sequelize.define('Local', {
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    superficie: { type: DataTypes.INTEGER, allowNull: false },
+    habilitado: { type: DataTypes.BOOLEAN, allowNull: false },
+    pathimages: { type: DataTypes.STRING, allowNull: false },
+    alquilado: { type: DataTypes.BOOLEAN, allowNull: false },
+    costoMes: { type: DataTypes.FLOAT, allowNull: false },
+  }, { tableName: 'locales' });
+  
+  // Relación con Promocion
+  Local.hasMany(Promocion, { foreignKey: 'localId', as: 'promociones' });
+  Promocion.belongsTo(Local, { foreignKey: 'localId' });
+  
+  module.exports = Local;

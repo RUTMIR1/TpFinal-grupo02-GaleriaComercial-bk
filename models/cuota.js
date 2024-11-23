@@ -1,14 +1,17 @@
-const pago = require('./pago');
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
+const sequelize = require('../database.js');  // Ajusta la ruta si es necesario
+const { DataTypes } = require('sequelize');
+const Pago = require('./pago');
 
-const CuotaSchema = new Schema({
-    numeroCuota: {type: Number, required:true},
-    monto: {type: Number, required: true},
-    fechaCuota: {type: Date, required: true},
-    fechaVencimiento: {type: Date, required: true},
-    estado: {type: String, required: true},
-    pago: [{type: Schema.Types.ObjectId, ref: pago, required: false}]
-});
-
-module.exports = mongoose.models.Cuota || mongoose.model('Cuota', CuotaSchema);
+const Cuota = sequelize.define('Cuota', {
+    numeroCuota: { type: DataTypes.INTEGER, allowNull: false },
+    monto: { type: DataTypes.FLOAT, allowNull: false },
+    fechaCuota: { type: DataTypes.DATE, allowNull: false },
+    fechaVencimiento: { type: DataTypes.DATE, allowNull: false },
+    estado: { type: DataTypes.STRING, allowNull: false },
+  }, { tableName: 'cuotas' });
+  
+  // Relación con Pago
+  Cuota.hasMany(Pago, { foreignKey: 'cuotaId', as: 'pagos' });
+  Pago.belongsTo(Cuota, { foreignKey: 'cuotaId' });
+  
+  module.exports = Cuota;
